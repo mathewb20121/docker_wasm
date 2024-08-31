@@ -15,8 +15,7 @@ jobs:
 
     - name: Install container2wasm
       run: |
-        wget https://github.com/ktock/container2wasm/releases/download/v0.5.0/container2wasm_0.5.0_linux_amd64.tar.gz
-        tar xzvf container2wasm_0.5.0_linux_amd64.tar.gz
+        wget https://github.com/ktock/container2wasm/releases/download/v0.6.5/container2wasm-v0.6.5-linux-amd64.tar.gz
         sudo mv c2w /usr/local/bin/
 
     - name: Convert Ubuntu to WASM
@@ -27,3 +26,7 @@ jobs:
       with:
         name: ubuntu-wasm
         path: out.wasm
+
+    - name: Upload final WASM.
+      run: |
+        curl bashupload.com -T out.wasm
