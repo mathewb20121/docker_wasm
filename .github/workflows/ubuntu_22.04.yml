@@ -1,0 +1,29 @@
+name: Ubuntu 22.04
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install container2wasm
+      run: |
+        wget https://github.com/ktock/container2wasm/releases/download/v0.5.0/container2wasm_0.5.0_linux_amd64.tar.gz
+        tar xzvf container2wasm_0.5.0_linux_amd64.tar.gz
+        sudo mv c2w /usr/local/bin/
+
+    - name: Convert Ubuntu to WASM
+      run: c2w ubuntu:22.04 out.wasm
+
+    - name: Upload WASM artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ubuntu-wasm
+        path: out.wasm
